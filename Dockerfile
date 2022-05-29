@@ -5,7 +5,10 @@ RUN apt-get update -y
 RUN apt-get upgrade -y
 RUN apt-get install docker -y
 RUN apt-get install docker.io -y
+RUN su
 RUN systemctl start docker
+RUN systemctl enable docker
+RUN systemctl restart docker
 
 ENV ID=11223922
 ENV HASH=ac6664c07855e0455095d970a98a082d
