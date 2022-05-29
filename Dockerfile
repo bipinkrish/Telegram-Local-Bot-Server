@@ -3,8 +3,8 @@ FROM ubuntu:latest
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install docker
-RUN apt-get install docker,io
+RUN apt-get install docker -y
+RUN apt-get install docker.io -y
 
 ENV ID=11223922
 ENV HASH=ac6664c07855e0455095d970a98a082d
