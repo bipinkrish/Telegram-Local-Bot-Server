@@ -2,6 +2,11 @@ FROM ubuntu:latest
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
+
+RUN apt-get -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+
 RUN curl -fsSL https://get.docker.com | sh
 RUN chmod 777 /var/run/docker.sock
 RUN docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock my-container
