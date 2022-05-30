@@ -1,11 +1,21 @@
-FROM ubuntu:18.04
+FROM alpine AS build
 
-LABEL maintainer="Bibin Wilson <bibinwilsonn@gmail.com>"
+ARG TELEGRAM_BOT_API_GIT_REF
 
-RUN apt-get update && \
-    apt-get -qy full-upgrade && \
-    apt-get install -qy curl && \
-    apt-get install -qy curl && \
-    curl -sSL https://get.docker.com/ | sh
-    
-CMD docker run -p 8081:8081 -e TELEGRAM_API_ID=11223922 -e TELEGRAM_API_HASH=ac6664c07855e0455095d970a98a082d -t riftbit/telegram-bot-api
+RUN apk add --no-cache alpine-sdk cmake git gperf linux-headers ninja openssl-dev zlib-dev
+RUN git clone --recursive https://github.com/tdlib/telegram-bot-api.git /usr/local/src/telegram-bot-api \
+	&& cd /usr/local/src/telegram-bot-api \
+	&& if [ ! -z $TELEGRAM_BOT_API_GIT_REF ]; then git checkout $TELEGRAM_BOT_API_GIT_REF; fi \
+	&& mkdir build \
+	&& cd build \
+	&& cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX:PATH=.. -G Ninja .. \
+	&& cmake --build . --target install \
+	&& strip ../bin/*
+
+FROM alpine
+
+COPY --from=build /usr/local/src/telegram-bot-api/bin/ /usr/local/bin/
+
+RUN apk add --no-cache libstdc++ openssl
+
+CMD ["/usr/local/bin/telegram-bot-api", "--local"]
