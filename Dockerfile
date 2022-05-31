@@ -21,4 +21,4 @@ RUN apk add --no-cache libstdc++ openssl
 ENV HASH=$HASH
 ENV ID=$ID
 
-CMD ["/usr/local/bin/telegram-bot-api","--api-id=$(ID)","--api-hash=$(HASH)","--verbosity=2","--local"]
+CMD ["/usr/local/bin/telegram-bot-api","--api-id=$ID","--api-hash=$HASH","--verbosity=2","--local"]
