@@ -18,7 +18,5 @@ COPY --from=build /usr/local/src/telegram-bot-api/bin/ /usr/local/bin/
 
 RUN apk add --no-cache libstdc++ openssl
 
-ENV ID ${ID}
-ENV HASH ${HASH}
 
-CMD ["sh", "-c", "/usr/local/bin/telegram-bot-api","--api-id=${ID}","--api-hash=${HASH}","--verbosity=2","--local"]
+CMD ["sh", "-c", "/usr/local/bin/telegram-bot-api","--api-id=11223922","--api-hash=ac6664c07855e0455095d970a98a082d","--verbosity=2","--local"]
