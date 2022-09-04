@@ -5,7 +5,7 @@ services:
     expose:
       - 8081:8081
     command:
-      - --api-id=11223922
-      - --api-hash=ac6664c07855e0455095d970a98a082d
+      - --api-id=APIID
+      - --api-hash=APIHASH
       - --verbosity=2
       - --local
